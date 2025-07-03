@@ -4,6 +4,33 @@
   <meta charset="UTF-8">
   <title>Adicionar equipamento</title>
   <style>
+    .navbar {
+  background-color: #1a1a1a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  margin: -30px -30px 30px -30px; /* remove o padding lateral do body */
+  border-bottom: 2px solid #333;
+}
+
+.navbar .logo {
+  font-size: 18px;
+  font-weight: bold;
+  color: #7da23d;
+}
+
+.navbar .links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar .links a:hover {
+  color: #7da23d;
+}
     body {
       background-color: #111;
       color: white;
@@ -58,6 +85,15 @@
   </style>
 </head>
 <body>
+  <nav class="navbar">
+  <a href="calendario.html" class="logo">Painel de Gerenciamento</a>
+
+  <div class="links">
+    <a href="equipamentos.html">Equipamentos cadastrados</a>
+    <a href="Adicionar_sala.html">Adicionar Sala</a>
+    <a href="Adicionar_equipamento.html">Adicionar Equipamento</a>
+  </div>
+</nav>
 
   <h1>Adicionar equipamento</h1>
 
