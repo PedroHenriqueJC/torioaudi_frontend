@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Reserva de Sala</title>
+  <link rel="stylesheet" href="estilos.css">
+  </head>
+<body>
+
+  <h1>Reserva de Sala</h1>
+  <div class="info">Data selecionada: <span id="dataSelecionada"></span></div>
+
+  <form id="reservaForm">
+    <label for="evento">Nome do Evento</label>
+    <input type="text" id="evento" required>
+
+    <label for="descricao">Descrição do Evento</label>
+    <textarea id="descricao" rows="4"></textarea>
+
+    <label for="cor">Cor do Evento</label>
+    <input type="color" id="cor" value="#FF5733">
+
+    <button type="submit">Salvar Reserva</button>
+  </form>
+
+  <a href="calendario.html" class="back-link">← Voltar para agenda</a>
+
+  <script>
+    // Obtem data da URL
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get("data");
+    const spanData = document.getElementById("dataSelecionada");
+    spanData.textContent = data ?? "Data não informada";
+
+    // Captura o submit
+    document.getElementById("reservaForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const evento = document.getElementById("evento").value;
+      const descricao = document.getElementById("descricao").value;
+      const cor = document.getElementById("cor").value;
+
+      alert(`Reserva salva com sucesso!\n\nData: ${data}\nEvento: ${evento}\nCor: ${cor}\nDescrição: ${descricao}`);
+    });
+  </script>
+
+</body>
+  <style>
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .info {
+      margin-bottom: 30px;
+      font-size: 1.2em;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="color"] {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1e1e1e;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 20px;
+      background-color: #7c9b29;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #a3c945;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</html>
