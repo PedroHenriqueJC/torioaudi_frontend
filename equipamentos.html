@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Seleção de Equipamentos</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .item {
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .item h2 {
+      margin: 0 0 5px;
+    }
+
+    .item p {
+      margin: 0 0 15px;
+      color: #aaa;
+    }
+
+    .quantidade {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+    }
+
+    .quantidade button {
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .quantidade span {
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .status {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .disponivel {
+      background-color: #d1f3d1;
+      color: #0b5d0b;
+    }
+
+    .indisponivel {
+      background-color: #f8d1d1;
+      color: #b30000;
+    }
+
+    .confirmar {
+      background-color: #a2c73c;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Seleção de Equipamentos</h1>
+
+  <div class="item">
+    <h2>Microfone sem fio</h2>
+    <p>Microfones de alta qualidade e baixa latência para sua apresentação</p>
+    <div class="quantidade">
+      Quantidade:
+      <button onclick="alterarQuantidade('mic', -1)">−</button>
+      <span id="mic">5</span>
+      <button onclick="alterarQuantidade('mic', 1)">+</button>
+    </div>
+    <div class="status disponivel">Disponível</div>
+  </div>
+
+  <div class="item">
+    <h2>Projetor 4K</h2>
+    <p>Projetor de alta resolução com HDMI e USB</p>
+    <div class="quantidade">
+      Quantidade:
+      <button onclick="alterarQuantidade('proj', -1)">−</button>
+      <span id="proj">1</span>
+      <button onclick="alterarQuantidade('proj', 1)">+</button>
+    </div>
+    <div class="status disponivel">Disponível</div>
+  </div>
+
+  <div class="item">
+    <h2>Sistema de som</h2>
+    <p>Caixas de som e mesa de áudio profissional</p>
+    <div class="quantidade">
+      Quantidade:
+      <button onclick="alterarQuantidade('som', -1)">−</button>
+      <span id="som">0</span>
+      <button onclick="alterarQuantidade('som', 1)">+</button>
+    </div>
+    <div class="status indisponivel">Indisponível</div>
+  </div>
+
+<button class="confirmar" onclick="confirmarReserva()">Confirmar Reserva</button>
+
+<script>
+  function alterarQuantidade(id, valor) {
+    const span = document.getElementById(id);
+    let atual = parseInt(span.textContent);
+    atual += valor;
+    if (atual < 0) atual = 0;
+    span.textContent = atual;
+  }
+
+  function confirmarReserva() {
+    window.location.href = "https://docs.google.com/document/d/1WJwir5_59NnBnjmeTlD0OSUSxMWN2mbLkNIBJGZ5TYM/edit?tab=t.0";
+  }
+</script>
+
+
+</body>
+</html>
