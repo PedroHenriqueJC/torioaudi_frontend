@@ -15,10 +15,7 @@
     <input type="text" id="evento" required>
 
     <label for="descricao">Descrição do Evento</label>
-    <textarea id="descricao" rows="4"></textarea>
-
-    <label for="cor">Cor do Evento</label>
-    <input type="color" id="cor" value="#FF5733">
+    <textarea id="descricao" rows="4"></textarea><br>
 
     <button type="submit">Salvar Reserva</button>
   </form>
@@ -48,6 +45,12 @@
     h1 {
       margin-bottom: 10px;
     }
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
 
     .info {
       margin-bottom: 30px;
@@ -56,20 +59,27 @@
 
     label {
       display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
+      margin-top: 20px;
+      margin-bottom: 8px;
       font-weight: bold;
     }
 
     input[type="text"],
     textarea,
     input[type="color"] {
+        width: 100%;
       padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: #1e1e1e;
+      border: 2px solid transparent;
+      background-color: #222;
       color: white;
-      margin-bottom: 10px;
+      border-radius: 6px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s;
+        display: inline-block;
+      border: 1px solid #444;
+      margin: 5px 5px 0 0;
+      cursor: pointer;
     }
 
     textarea {
