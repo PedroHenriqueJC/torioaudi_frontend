@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Pessoas</title>
+</head>
+<body>
+
+  <h1>Cadastro de Pessoa</h1>
+
+
+  <form name="formCadastro" action="../src/api/insertAgendamento.php" method="POST">
+    <label for="matricula">Matricula:</label><br>
+    <input type="text" id="matricula" name="matricula" required><br>
+
+    <label for="permissao">Permissão:</label>
+    <select id="permissao" name="permissao" required>
+      <option value="usuario">Usuário</option>
+      <option value="moderador">Moderador</option>
+    </select><br><br>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+
+</body>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 30px;
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1e1e1e;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    input{
+      width: 98.5%;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #7c9b29;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+
+</html>
