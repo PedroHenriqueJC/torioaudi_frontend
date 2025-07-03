@@ -41,36 +41,7 @@
       border-color: #7da23d;
     }
 
-    .qualidade {
-      margin-top: 20px;
-    }
 
-    .qualidade label {
-      font-weight: normal;
-      display: block;
-      margin: 5px 0;
-    }
-
-    .destinos {
-      margin-top: 25px;
-    }
-
-    .destinos span {
-      display: inline-block;
-      background-color: #222;
-      border: 1px solid #444;
-      padding: 10px 16px;
-      border-radius: 20px;
-      margin: 5px 5px 0 0;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, border 0.3s;
-    }
-
-    .destinos span.ativo {
-      background-color: #7da23d;
-      color: #000;
-      border-color: #7da23d;
-    }
 
     .btn-adicionar {
       margin-top: 30px;
@@ -96,24 +67,7 @@
   <label for="quantidade">Quantidade</label>
   <input type="number" id="quantidade" placeholder="Ex: 5">
 
-  <div class="qualidade">
-    <label>Qualidade</label>
-    <label><input type="radio" name="qualidade" value="Bom"> Bom</label>
-    <label><input type="radio" name="qualidade" value="Médio"> Médio</label>
-    <label><input type="radio" name="qualidade" value="Ruim"> Ruim</label>
-  </div>
-
-  <div class="destinos">
-    <label>Sala(s) de destino</label>
-    <span onclick="alternarSala(this)">Todas</span>
-    <span onclick="alternarSala(this)">Auditório</span>
-    <span onclick="alternarSala(this)">Miniauditório</span>
-    <span onclick="alternarSala(this)">Sala3</span>
-    <span onclick="alternarSala(this)">Sala4</span>
-    <span onclick="alternarSala(this)">Sala5</span>
-    <span onclick="alternarSala(this)">Sala6</span>
-    <span onclick="alternarSala(this)">Sala7</span>
-  </div>
+  
 
   <button class="btn-adicionar" onclick="adicionarEquipamento()">Adicionar</button>
 
@@ -125,11 +79,10 @@
     function adicionarEquipamento() {
       const nome = document.getElementById("equipamento").value;
       const quantidade = document.getElementById("quantidade").value;
-      const qualidade = document.querySelector('input[name="qualidade"]:checked')?.value || "Não informada";
-      const salas = Array.from(document.querySelectorAll(".destinos span.ativo"))
+
         .map(el => el.textContent);
 
-      alert(`Equipamento: ${nome}\nQuantidade: ${quantidade}\nQualidade: ${qualidade}\nSalas: ${salas.join(", ")}`);
+      alert(`Equipamento: ${nome}\nQuantidade: ${quantidade}\nQualidade: `);
     }
   </script>
 
