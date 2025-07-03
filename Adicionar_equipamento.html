@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Adicionar equipamento</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid transparent;
+      background-color: #222;
+      color: white;
+      border-radius: 6px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: #7da23d;
+    }
+
+    .qualidade {
+      margin-top: 20px;
+    }
+
+    .qualidade label {
+      font-weight: normal;
+      display: block;
+      margin: 5px 0;
+    }
+
+    .destinos {
+      margin-top: 25px;
+    }
+
+    .destinos span {
+      display: inline-block;
+      background-color: #222;
+      border: 1px solid #444;
+      padding: 10px 16px;
+      border-radius: 20px;
+      margin: 5px 5px 0 0;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, border 0.3s;
+    }
+
+    .destinos span.ativo {
+      background-color: #7da23d;
+      color: #000;
+      border-color: #7da23d;
+    }
+
+    .btn-adicionar {
+      margin-top: 30px;
+      background-color: #7da23d;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Adicionar equipamento</h1>
+
+  <label for="equipamento">Nome do equipamento</label>
+  <input type="text" id="equipamento" placeholder="Ex: Projetor 4K">
+
+  <label for="quantidade">Quantidade</label>
+  <input type="number" id="quantidade" placeholder="Ex: 5">
+
+  <div class="qualidade">
+    <label>Qualidade</label>
+    <label><input type="radio" name="qualidade" value="Bom"> Bom</label>
+    <label><input type="radio" name="qualidade" value="Médio"> Médio</label>
+    <label><input type="radio" name="qualidade" value="Ruim"> Ruim</label>
+  </div>
+
+  <div class="destinos">
+    <label>Sala(s) de destino</label>
+    <span onclick="alternarSala(this)">Todas</span>
+    <span onclick="alternarSala(this)">Auditório</span>
+    <span onclick="alternarSala(this)">Miniauditório</span>
+    <span onclick="alternarSala(this)">Sala3</span>
+    <span onclick="alternarSala(this)">Sala4</span>
+    <span onclick="alternarSala(this)">Sala5</span>
+    <span onclick="alternarSala(this)">Sala6</span>
+    <span onclick="alternarSala(this)">Sala7</span>
+  </div>
+
+  <button class="btn-adicionar" onclick="adicionarEquipamento()">Adicionar</button>
+
+  <script>
+    function alternarSala(el) {
+      el.classList.toggle("ativo");
+    }
+
+    function adicionarEquipamento() {
+      const nome = document.getElementById("equipamento").value;
+      const quantidade = document.getElementById("quantidade").value;
+      const qualidade = document.querySelector('input[name="qualidade"]:checked')?.value || "Não informada";
+      const salas = Array.from(document.querySelectorAll(".destinos span.ativo"))
+        .map(el => el.textContent);
+
+      alert(`Equipamento: ${nome}\nQuantidade: ${quantidade}\nQualidade: ${qualidade}\nSalas: ${salas.join(", ")}`);
+    }
+  </script>
+
+</body>
+</html>
