@@ -84,3 +84,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+.botaoPadrao {
+  padding: 1rem;
+  background-color: #228b22;
+  border: none;
+  border-radius: 8px;
+  font-weight: 200;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #f0f0f0;
+  font-size: 1.2rem;
+}
+
+.botaoPadrao:hover {
+  background-color: #1e7a1e;
+}

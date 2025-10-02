@@ -1,5 +1,6 @@
 <template>
   <div class="agendamento">
+    <!-- A Navbar já está no App.vue, não precisa repetir aqui -->
     
     <h1>Agendamento</h1>
     <p>Selecione uma data no calendário e preencha os dados abaixo:</p>

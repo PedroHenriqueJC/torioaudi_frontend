@@ -16,10 +16,18 @@
         <router-link to="/equipamentos" @click="fecharMenu">
           Meus Equipamentos
         </router-link>
-        <router-link to="/perfil" @click="fecharMenu">
-            <img src="@/assets/perfil.jpeg" alt="" width="30px" height="30px" style="border-radius: 50%;">
+        <router-link to="/agendamento" @click="fecharMenu">
+          Agendamentos
         </router-link>
-        <button class="logout-btn" @click="logout">Sair</button>
+
+        <!-- Perfil com Dropdown -->
+        <div class="perfil-container" @click="toggleDropdown">
+          <img src="@/assets/perfilfrutiger.jpg" alt="Perfil" width="35" height="35" style="border-radius: 50%; cursor: pointer;"/>
+          <div v-if="dropdownAberto" class="dropdown-menu">
+            <router-link to="/perfil" @click="fecharDropdown">Editar Perfil</router-link>
+            <button @click="logout">Sair</button>
+          </div>
+        </div>
       </template>
     </nav>
 
@@ -35,15 +43,24 @@ export default {
   data() {
     return {
       menuAberto: false,
-      usuarioLogado: true, // aqui você controlaria o estado
+      usuarioLogado: true, // controle de login
+      dropdownAberto: false, // controla o menu do perfil
     };
   },
   methods: {
     fecharMenu() {
       this.menuAberto = false;
     },
+    toggleDropdown() {
+      this.dropdownAberto = !this.dropdownAberto;
+    },
+    fecharDropdown() {
+      this.dropdownAberto = false;
+    },
     logout() {
       this.usuarioLogado = false;
+      this.dropdownAberto = false;
+      localStorage.removeItem("token"); // limpa sessão
       this.$router.push("/");
     },
   },
@@ -57,8 +74,7 @@ export default {
 </script>
 
 <style scoped>
-
-
+/* Navbar container */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -72,7 +88,7 @@ export default {
   box-shadow: 0px 0px 8px black;
 }
 
-
+/* Logo */
 .logo a {
   color: white;
   font-size: 1.3rem;
@@ -80,6 +96,7 @@ export default {
   text-decoration: none;
 }
 
+/* Links */
 .nav-links {
   display: flex;
   gap: 1.5rem;
@@ -101,6 +118,7 @@ export default {
   color: #e0e0e0;
 }
 
+/* Botão hamburguer */
 .menu-btn {
   display: none;
   font-size: 1.5rem;
@@ -110,6 +128,7 @@ export default {
   cursor: pointer;
 }
 
+/* Responsividade */
 @media (max-width: 768px) {
   .nav-links {
     position: absolute;
@@ -143,5 +162,36 @@ export default {
 .logout-btn:hover {
   color: #e0e0e0;
 }
-</style>
 
+.dropdown-menu {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: #181818;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+  padding: 10px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background: #383838;
+}
+
+</style>

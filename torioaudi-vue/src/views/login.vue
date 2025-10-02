@@ -4,25 +4,13 @@
       <h1>Login</h1>
       <form @submit.prevent="handleLogin">
         <div class="input-group">
-          <label for="matricula">Matrícula</label>
-          <input
-            type="text"
-            id="matricula"
-            v-model="matricula"
-            placeholder="Digite sua matrícula"
-            required
-          />
-        </div>
+          <label for="email">E-mail</label>
+          <input type="text" id="email" v-model="email" placeholder="Digite seu email" required/>
 
-        <div class="input-group">
+          <div><br></div>
+
           <label for="senha">Senha</label>
-          <input
-            type="password"
-            id="senha"
-            v-model="senha"
-            placeholder="Digite sua senha"
-            required
-          />
+          <input type="password" id="senha" v-model="senha" placeholder="Digite sua senha" required />
         </div>
             <button type="submit">Entrar</button>
       </form>
@@ -34,37 +22,44 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const matricula = ref('')
+const email = ref('')
 const senha = ref('')
 const router = useRouter()
 
-// Simulação de autenticação
-function autenticarUsuario(matricula, senha) {
-  // Aqui você pode trocar para chamada real de backend
-  if (matricula === 'admin' && senha === 'admin') {
+import api from '../services/api'
+
+// Autenticação com o backend
+async function autenticarUsuario(email, senha) {
+  try {
+    const response = await api.post('/login', {
+      email_usuario: email,
+      senha_usuario: senha
+    })
+    
+    // Salvar o token de autenticação
+    localStorage.setItem('token', response.data.token)
+    
+    // Configurar o token no header das requisições
+    api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
+    
     return true
+  } catch (error) {
+    console.error('Erro de autenticação:', error.response?.data?.message || error.message)
+    return false
   }
-  return false
 }
-
-function handleLogin() {
-  if (autenticarUsuario(matricula.value, senha.value)) {
-    // Armazena token ou flag de login se quiser
-    localStorage.setItem('logado', 'true')
-
+async function handleLogin() {
+  const success = await autenticarUsuario(email.value, senha.value)
+  if (success) {
+    // Redireciona para a página de agendamento
     router.push('/agendamento')
   } else {
-    alert('Matrícula ou senha incorreta!')
+    alert('Email ou senha incorretos!')
   }
 }
 </script>
 
 <style scoped>
-body {
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  padding: 0;
-}
 
 .container {
   display: flex;
@@ -72,13 +67,6 @@ body {
   width: 100%;
   height: 100vh;
   color: #f0f0f0;
-}
-
-nav{
-  display: flex;
-  padding: 1rem 2rem;
-  color: white;
-  background-color: black ;
 }
 
 .login-box {
@@ -123,7 +111,6 @@ nav{
   background-color: #2b2b2b;
   color: #f0f0f0;
   font-size: 1.1rem;
-  text-align: left;
 }
 
 .input-group input:focus {
@@ -151,61 +138,4 @@ button:hover {
   background-color: #1e7a1e;
 }
 
-.texto {
-  display: flex;
-  width: 100%;
-  height: 10vh;
-  padding: 1rem;
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-.calendar {
-  background-color: #1f1f1f;
-  padding: 3rem;
-  width: 40%;
-  margin: auto;
-  font-family: Arial, sans-serif;
-  border-radius: 15px;
-}
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-th, td {
-  width: 14.28%;
-  height: 50px;
-  text-align: center;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
-td.today {
-  background: #d1f7c4;
-  font-weight: bold;
-}
-td.selected {
-  background: #a3d8f4;
-}
-td:hover {
-  background: #eee;
-}
-.selected-text {
-  margin-top: 10px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.finalizar-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #228b22;
-  border-radius: 5px;
-  cursor: pointer;
-}
 </style>

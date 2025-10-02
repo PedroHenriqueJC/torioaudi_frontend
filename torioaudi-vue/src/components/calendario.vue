@@ -2,9 +2,9 @@
   <div class="calendario">
     <!-- Cabeçalho com mês/ano -->
     <div class="calendario-header">
-      <button @click="mesAnterior">‹</button>
+      <button class="botaoPadrao" @click="mesAnterior">‹</button>
       <h2>{{ nomeMesAtual }} {{ anoAtual }}</h2>
-      <button @click="proximoMes">›</button>
+      <button class="botaoPadrao" @click="proximoMes">›</button>
     </div>
 
     <!-- Dias da semana -->
@@ -94,6 +94,7 @@ export default {
 <style scoped>
 .calendario {
   width: 60%;
+  margin-top: 3rem;
   margin: auto;
   padding: 1rem;
   border-radius: 8px;

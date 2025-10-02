@@ -23,7 +23,18 @@
 </template>
 
 <script>
+import api from "@/services/api.js";
+import { ref, onMounted } from "vue";
 import CardAmbiente from "@/components/cardAmbiente.vue";
+
+onMounted(async () => {
+  try {
+    const res = await api.get('/users') // rota do Laravel
+    users.value = res.data
+  } catch (err) {
+    console.error('Erro ao carregar usuários:', err)
+  }
+})
 
 export default {
   name: "Home",
@@ -37,7 +48,7 @@ export default {
   padding: 2rem; 
 }
 
-
+/* Seção de ambientes */
 .ambientes {
   padding: 3rem 2rem;
 }
