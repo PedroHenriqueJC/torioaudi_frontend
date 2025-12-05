@@ -126,7 +126,8 @@ async function excluirEquipamento() {
     const response = await api.delete(`/equipamento/${equipamentoSelecionado.value.cod_equipamento}`)
     if (response.status === 200 || response.status === 204) {
       equipamentos.value = equipamentos.value.filter(eq => eq.cod_equipamento !== equipamentoSelecionado.value.cod_equipamento)
-      alert('Equipamento excluído com sucesso!')
+      console.log('Sala excluída com sucesso!');
+
     } else {
       throw new Error('Falha ao excluir equipamento')
     }

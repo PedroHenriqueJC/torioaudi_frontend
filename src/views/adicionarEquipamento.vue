@@ -45,10 +45,10 @@ async function salvarEquipamento() {
 
         <div class="form-group">
           <label for="descricao">Descrição:</label>
-          <textarea id="descricao" v-model="descricao" placeholder="Ex: Projetor Epson X200" rows="20"></textarea>
+          <textarea id="descricao" v-model="descricao" placeholder="Ex: Projetor Epson X200" rows="10"></textarea>
         </div>
         <div class="form-group">
-          <label for="quantidade">Quantidade:</label>
+          <label for="quantidade">Quantidade total:</label>
           <input id="quantidade" v-model="quantidade" type="number" placeholder="Ex: 5" />
         </div>
 
@@ -63,12 +63,14 @@ async function salvarEquipamento() {
 
 <style scoped>
 .container {
+  position: fixed;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100vh;
   color: #f0f0f0;
   justify-content: center;
+  align-items: center;
 }
 
 .box {
@@ -83,7 +85,6 @@ async function salvarEquipamento() {
 .box h1 {
   color: #f0f0f0; /* branco gelo */
   margin-bottom: 2rem;
-  font-weight: 500;
   font-size: 2rem;
 }
 
@@ -99,7 +100,6 @@ async function salvarEquipamento() {
   align-self: flex-start;
   color: #f0f0f0;
   margin-bottom: 0.5rem;
-  font-weight: 500;
   font-size: 1.1rem;
 }
 
@@ -111,7 +111,6 @@ async function salvarEquipamento() {
   border: 2px solid #f0f0f0;
   background-color: #2b2b2b;
   color: #f0f0f0;
-  font-size: 1.1rem;
 }
 
 .form-group input:focus, textarea:focus {

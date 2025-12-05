@@ -28,8 +28,8 @@ select{
 .content-esquerda {
   width: 50%;
   display: flex;
+  flex-direction: column;
   gap: 2rem;
-  flex-wrap: wrap;
 }
 
 .eventos-lista {
@@ -56,20 +56,35 @@ h2 {
   border-bottom: 1px solid #333;
   padding-bottom: 10px;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 </style>
 
 <template>
   <div class="container">
     <h1>Agendamento</h1>
-    <p>Selecione uma data no calendário e preencha os dados abaixo:</p>
+    <p>Selecione uma data no calendário e preencha os dados abaixos:</p>
     <select name="" id="">
       <option value=""></option>
       <option v-for="sala in salas" :key="sala.cod_sala" :value="sala.cod_sala">{{ sala.nome_sala }}</option>
     </select>
 
+    
+
     <div class="content">
       <div class="content-esquerda">
-        <Calendario @dataSelecionada="handleDataSelecionada" />
+        <Calendario :eventos="todosOsEventos" @dataSelecionada="handleDataSelecionada" />
       </div>
 
       <div class="content-direita">
@@ -90,19 +105,24 @@ h2 {
             @excluir="excluirEvento"
             :dadosEvento="{
               nomeEvento: evento.nome_evento,
-              dataInicio: formatarDataHora(evento.evento_inicio),
-              dataFim: formatarDataHora(evento.evento_fim),
+              dataInicio: ajustarHorario(evento.evento_inicio),
+              dataFim: ajustarHorario(evento.evento_fim),
               local: evento.sala?.nome_sala || 'Sala não especificada',
               descricao: evento.descricao_evento
             }"
           />
         </div>
 
-        <button class="botaoPadrao" @click="abrirModalAgendamento">
+        <button class="botaoPadrao" @click="handleAbrirModal">
           Criar Reserva
         </button>
       </div>
-  <Reserva :dataReserva="dataSelecionada" :salas="salas" />
+  <Reserva 
+    v-if="abrirModalAgendamento" 
+    :dataReserva="dataSelecionada" 
+    :salas="salas"
+    @fechar="abrirModalAgendamento = false"
+  />
     </div>
   </div>
 </template>
@@ -115,22 +135,39 @@ import Reserva from "@/components/reserva.vue";
 import api from "@/services/api.js";
 import "@/assets/componentes.css";
 
-// Função para formatar data e hora
-function formatarDataHora(dateStr) {
+// Função para ajustar e formatar horários do GMT 0 para GMT -3 (São Paulo)
+function ajustarHorario(dateStr) {
   if (!dateStr) return '';
   try {
+    // Criar data a partir da string UTC
     const data = new Date(dateStr);
     if (isNaN(data.getTime())) {
       console.error('Data inválida:', dateStr);
       return 'Data inválida';
     }
-    return data.toLocaleString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+
+    // Extrair as horas e minutos
+    let horas = data.getUTCHours(); // Pega a hora em UTC (GMT 0)
+    const minutos = data.getUTCMinutes();
+    
+    // Subtrair 3 horas
+    horas = horas - 3;
+    
+    // Ajustar caso a hora fique negativa
+    if (horas < 0) {
+      horas = horas + 24;
+    }
+    
+    // Formatar a data
+    const dia = data.getUTCDate().toString().padStart(2, '0');
+    const mes = (data.getUTCMonth() + 1).toString().padStart(2, '0');
+    const ano = data.getUTCFullYear();
+    
+    // Formatar horas e minutos
+    const horaFormatada = horas.toString().padStart(2, '0');
+    const minutosFormatados = minutos.toString().padStart(2, '0');
+
+    return `${dia}/${mes}/${ano} ${horaFormatada}:${minutosFormatados}`;
   } catch (error) {
     console.error('Erro ao formatar data:', error);
     return 'Data inválida';
@@ -142,6 +179,7 @@ const dataSelecionada = ref('');
 const loading = ref(false);
 const eventosDoDia = ref([]);
 const salaSelecionada = ref('');
+const abrirModalAgendamento = ref(false);
 
 // Carregar salas disponíveis
 async function carregarSalas() {
@@ -161,6 +199,12 @@ async function carregarEventos(data) {
     const res = await api.get(`/eventos/${dataRequest}`);
     const eventos = res.data.data || res.data || [];
     console.log('Dados brutos dos eventos:', eventos);
+    
+    // Log para debug dos horários
+    if (eventos.length > 0) {
+      console.log('Exemplo de horário original:', eventos[0].evento_inicio);
+      console.log('Horário ajustado:', ajustarHorario(eventos[0].evento_inicio));
+    }
     
     eventosDoDia.value = eventos;
     console.log('Eventos processados:', eventosDoDia.value);
@@ -205,17 +249,13 @@ const dataSelecionadaFormatada = computed(() => {
   return dataSelecionada.value ? formatarDataExtenso(dataSelecionada.value) : '';
 });
 
-// Abrir modal de agendamento
-function abrirModalAgendamento() {
+// Função para abrir o modal de agendamento
+function handleAbrirModal() {
   if (!dataSelecionada.value) {
     alert('Por favor, selecione uma data primeiro');
     return;
   }
-  if (!salaSelecionada.value) {
-    alert('Por favor, selecione uma sala');
-    return;
-  }
-  // Aqui você implementará a lógica do modal de agendamento
+  abrirModalAgendamento.value = true;
 }
 
 // Função para excluir evento

@@ -137,7 +137,7 @@ async function excluirSala() {
     const response = await api.delete(`/salas/${salaSelecionada.value.cod_sala}`);
     if (response.status === 200 || response.status === 204) {
       salas.value = salas.value.filter(s => s.cod_sala !== salaSelecionada.value.cod_sala);
-      alert('Sala excluída com sucesso!');
+      console.log('Sala excluída com sucesso!');
     }
   } catch (error) {
     console.error("Erro ao excluir sala:", error);
@@ -275,6 +275,39 @@ th.localizacao {
 th.acoes {
     width: 15%;
     text-align: center;
+}
+
+.modal {
+  background-color: black;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.modal button {
+  margin: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-cancelar {
+  background-color: #6c757d;
+  color: white;
 }
 
 

@@ -15,9 +15,15 @@
         <!-- Usuário logado -->
         <template v-else>
           <router-link to="/agendamento" @click="fecharMenu">Agendamentos</router-link>
-          <router-link to="/equipamentos" @click="fecharMenu">Meus Equipamentos</router-link>
-          <router-link to="/salas" @click="fecharMenu">Minhas Salas</router-link>
-          <!-- <router-link to="/usuarios" @click="fecharMenu">Usuários</router-link> -->
+          <router-link to="/eventos" @click="fecharMenu"> Eventos agendados </router-link>
+          
+          <!-- Apenas para admins -->
+          <template v-if="isAdmin">
+            <router-link to="/equipamentos" @click="fecharMenu">Meus Equipamentos</router-link>
+            <router-link to="/salas" @click="fecharMenu">Minhas Salas</router-link>
+            <router-link to="/usuarios" @click="fecharMenu">Usuários</router-link>
+          </template>
+          
           <router-link to="/carrinho" @click="fecharMenu" class="cart-link">
             🛒 Carrinho
             <span v-if="cartCount > 0" class="cart-count">{{ cartCount }}</span>
@@ -67,6 +73,11 @@ const usuarioLogado = computed(() => {
 })
 
 const userData = computed(() => authStore.user)
+
+const isAdmin = computed(() => {
+  const user = authStore.user
+  return user?.role_usuario === 1
+})
 
 // Methods
 const fecharMenu = () => {

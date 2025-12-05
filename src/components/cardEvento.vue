@@ -38,10 +38,10 @@ export default {
       return this.dadosEvento.nomeEvento;
     },
     dataInicio() {
-      return this.dadosEvento.dataInicio;
+      return this.formatarDataHora(this.dadosEvento.dataInicio);
     },
     dataFim() {
-      return this.dadosEvento.dataFim;
+      return this.formatarDataHora(this.dadosEvento.dataFim);
     },
     local() {
       return this.dadosEvento.local;
@@ -51,6 +51,31 @@ export default {
     }
   },
   methods: {
+    formatarDataHora(dateStr) {
+      if (!dateStr) return '';
+      try {
+        // Criar data a partir da string UTC
+        const data = new Date(dateStr);
+        if (isNaN(data.getTime())) {
+          console.error('Data inválida:', dateStr);
+          return 'Data inválida';
+        }
+        // Subtrair 3 horas para converter de GMT 0 para GMT -3
+        data.setHours(data.getHours() - 3);
+        // Formatar a data já convertida
+        return new Intl.DateTimeFormat('pt-BR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        }).format(data);
+      } catch (error) {
+        console.error('Erro ao formatar data:', error);
+        return 'Data inválida';
+      }
+    },
     confirmarExclusao() {
       if (confirm(`Tem certeza que deseja excluir a reserva "${this.nomeEvento}"?`)) {
         this.$emit('excluir', this.eventoId);
@@ -94,7 +119,7 @@ h3 {
 .btn-excluir {
   background: none;
   border: none;
-  background-color: dc3545;
+  background-color: red;
   color: #dc3545;
   cursor: pointer;
   font-size: 1.2rem;

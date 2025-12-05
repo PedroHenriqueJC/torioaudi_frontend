@@ -81,6 +81,12 @@ const router = createRouter({
       name: 'carrinho',
       component: () => import('../views/carrinho.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/eventos',
+      name: 'eventos',
+      component: () => import('../views/eventos.vue'),
+      meta: { requiresAuth: true }
     }
   ],
 })

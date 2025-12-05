@@ -46,6 +46,19 @@ export const useCartStore = defineStore('cart', {
           
           const response = await api.post('/eventos', payload)
           console.log('Resposta da API:', response.data)
+          
+          const eventoId = response.data.data?.cod_evento || response.data?.cod_evento
+          
+          // Vincular equipamentos se houver
+          if (reservation.equipamentos && reservation.equipamentos.length > 0 && eventoId) {
+            for (const equipamento of reservation.equipamentos) {
+              await api.post('/equipamento-evento', {
+                evento_cod_evento: eventoId,
+                equipamento_cod_equipamento: equipamento.cod_equipamento,
+                quantidade: equipamento.quantidade
+              })
+            }
+          }
         }
         this.clearCart()
         return true
