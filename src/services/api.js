@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api' // Endereço do backend Laravel
+  baseURL: '/api' // Endereço do backend Laravel
 })
 
 // Adiciona o token de autenticação em todas as requisições
