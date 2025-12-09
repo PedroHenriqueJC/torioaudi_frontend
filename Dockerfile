@@ -13,8 +13,7 @@ RUN npm install
 # Copiar o restante do código
 COPY . .
 
-# Expor a porta padrão do Vite (5173)
-EXPOSE 5173
+EXPOSE 80
 
 # Rodar o modo dev
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["npm", "run", "dev", "--", "--host", "--port", "80"]
