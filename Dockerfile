@@ -13,7 +13,5 @@ RUN npm install
 # Copiar o restante do código
 COPY . .
 
-EXPOSE 80
-
 # Rodar o modo dev
-CMD ["npm", "run", "dev", "--", "--host", "--port", "80"]
+CMD ["npm", "run", "dev", "--", "--host"]
