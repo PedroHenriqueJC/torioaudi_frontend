@@ -176,7 +176,7 @@ async function salvarEdicao() {
             role_usuario: usuarioEmEdicao.value.role_usuario
         };
         
-        const response = await api.put(`/user/${usuarioEmEdicao.value.cod_usuario}`, {
+        const response = await api.put(`/usuarios/${usuarioEmEdicao.value.cod_usuario}`, {
             nome_usuario: usuarioEmEdicao.value.nome_usuario,
             email_usuario: usuarioEmEdicao.value.email_usuario,
             role_usuario: usuarioEmEdicao.value.role_usuario
