@@ -41,22 +41,48 @@ export const useCartStore = defineStore('cart', {
           console.log('Enviando reserva:', {
             ...payload,
             formato_inicio: new Date(payload.evento_inicio).toISOString(),
-            formato_fim: new Date(payload.evento_fim).toISOString()
+            formato_fim: new Date(payload.evento_fim).toISOString(),
+            equipamentos: reservation.equipamentos || []
           })
           
           const response = await api.post('/eventos', payload)
           console.log('Resposta da API:', response.data)
           
-          const eventoId = response.data.data?.cod_evento || response.data?.cod_evento
+          const eventoId = response.data.evento?.cod_evento
           
           // Vincular equipamentos se houver
-          if (reservation.equipamentos && reservation.equipamentos.length > 0 && eventoId) {
+          if (reservation.equipamentos && Array.isArray(reservation.equipamentos) && reservation.equipamentos.length > 0 && eventoId) {
+            console.log('Processando equipamentos:', reservation.equipamentos);
+            
             for (const equipamento of reservation.equipamentos) {
-              await api.post('/equipamento-evento', {
-                evento_cod_evento: eventoId,
-                equipamento_cod_equipamento: equipamento.cod_equipamento,
-                quantidade: equipamento.quantidade
-              })
+              try {
+                if (!equipamento.cod_equipamento || !equipamento.quantidade) {
+                  console.error('Equipamento inválido:', equipamento);
+                  continue;
+                }
+                
+                console.log('Adicionando equipamento ao evento:', {
+                  evento_cod_evento: eventoId,
+                  equipamento_cod_equipamento: equipamento.cod_equipamento,
+                  quantidade: equipamento.quantidade
+                });
+                
+                await api.post('/equipamento-evento', {
+                  evento_cod_evento: eventoId,
+                  equipamento_cod_equipamento: equipamento.cod_equipamento,
+                  quantidade: equipamento.quantidade
+                });
+                
+                console.log('Equipamento adicionado com sucesso');
+              } catch (equipError) {
+                console.error('Erro ao adicionar equipamento:', equipError);
+                console.error('Detalhes do erro:', {
+                  response: equipError.response?.data,
+                  status: equipError.response?.status,
+                  equipamento: equipamento
+                });
+                // Continue com os próximos equipamentos mesmo se um falhar
+              }
             }
           }
         }
