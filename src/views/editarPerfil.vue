@@ -156,7 +156,7 @@ async function salvarPerfil() {
     const userId = authStore.user?.cod_usuario || authStore.user?.id
 
     // Fazer PUT para atualizar o perfil
-    const response = await api.put(`/user/${userId}`, payload)
+    const response = await api.put(`/usuarios/${userId}`, payload)
 
     if (response.status === 200) {
       sucesso.value = 'Perfil atualizado com sucesso!'
