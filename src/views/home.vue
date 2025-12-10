@@ -1,21 +1,28 @@
 <template>
   <div class="home">
-    <div>
+    <div class="header">
       <h1>Sistema de Agendamento</h1>
       <p>Reserve auditórios, laboratórios e salas de forma prática e rápida.</p>
     </div>
 
-    <section class="ambientes">
-      <h2>Ambientes disponíveis</h2>
+    <section class="ambientes" v-if="!loading">
+      <h2>Nossos Ambientes</h2>
       <div class="cards">
-        <CardAmbiente titulo="Auditório" descricao="Ideal para palestras e grandes eventos." />
-        <CardAmbiente titulo="Laboratório de Informática" descricao="Espaço equipado com computadores." />
-        <CardAmbiente titulo="Sala de Reuniões" descricao="Perfeita para encontros menores e workshops." />
+        <CardAmbiente 
+          v-for="sala in salas" 
+          :key="sala.cod_sala"
+          :titulo="sala.nome_sala"
+          :descricao="sala.descricao || 'Sem descrição disponível'"
+        />
       </div>
     </section>
 
+    <div v-else class="loading">
+      <p>Carregando salas disponíveis...</p>
+    </div>
+
     <section class="cta">
-      <router-link to="/agendamento" class="btn">Agende seu espaço agora</router-link>
+      <router-link to="/agendamento" class="botaoVerde">Agende seu espaço agora</router-link>
     </section>
   </div>
 </template>
@@ -24,26 +31,68 @@
 import { ref, onMounted } from 'vue'
 import api from "@/services/api.js"
 import CardAmbiente from "@/components/cardAmbiente.vue"
-import Navbar from '@/components/navbar.vue'
+import '../assets/componentes.css'
 
-const users = ref([])
+const salas = ref([])
+const loading = ref(true)
+const error = ref(null)
 
-onMounted(async () => {
+const fetchSalas = async () => {
   try {
-    console.log('Home montado - buscando usuários...')
-    const res = await api.get('/me') // rota do Laravel
-    users.value = res.data
-    console.log('Usuários carregados:', users.value)
+    loading.value = true
+    const response = await api.get('/salas')
+    salas.value = response.data
   } catch (err) {
-    console.error('Erro ao carregar usuários:', err)
+    console.error('Erro ao carregar salas:', err)
+    error.value = 'Não foi possível carregar as salas disponíveis.'
+  } finally {
+    loading.value = false
   }
+}
+
+onMounted(() => {
+  fetchSalas()
 })
 </script>
 
 <style scoped>
 .home {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
   text-align: center;
-  padding: 2rem; 
+  margin-bottom: 2rem;
+}
+
+.ambientes {
+  margin: 2rem 0;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #f0f0f0;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #f0f0f0;
+}
+
+.cta {
+  margin-top: 3rem;
+  text-align: center;
 }
 
 /* Seção de ambientes */
@@ -51,10 +100,15 @@ onMounted(async () => {
   padding: 3rem 2rem;
 }
 
+.botaoVerde:hover {
+  filter: brightness(1.3);
+  transition: 0.3s;
+}
+
 .cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 20px;
   justify-content: center;
   margin-top: 2rem;
 }
@@ -63,17 +117,4 @@ onMounted(async () => {
   padding: 2rem;
 }
 
-.btn {
-  background: #4caf50;
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 1.2rem;
-  transition: background 0.3s;
-}
-
-.btn:hover {
-  background: #43a047;
-}
 </style>

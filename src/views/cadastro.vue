@@ -4,20 +4,20 @@
       <h1>Cadastro</h1>
       <form @submit.prevent="handleCadastro">
         <div class="input-group">
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" v-model="nome" placeholder="Digite seu nome" required/>
+            <label for="nome">Nome:</label>
+            <input class="input-busca" type="text" id="nome" v-model="nome" placeholder="Digite seu nome" required/>
 
             <div><br></div>
 
-            <label for="email">E-mail</label>
-            <input type="email" id="email" v-model="email" placeholder="Digite seu email" required/>
+            <label for="email">E-mail:</label>
+            <input class="input-busca" type="email" id="email" v-model="email" placeholder="Digite seu email" required/>
 
             <div><br></div>
 
-            <label for="senha">Senha</label>
-            <input type="password" id="senha" v-model="senha" placeholder="Digite sua senha" required />
+            <label for="senha">Senha:</label>
+            <input class="input-busca" type="password" id="senha" v-model="senha" placeholder="Digite sua senha" required />
         </div>
-            <button type="submit">Cadastrar</button>
+            <button type="submit" class="botaoVerde">Cadastrar</button>
       </form>
       <div v-if="mensagem" class="mensagem-erro">{{ mensagem }}</div>
       <p><br>Já possui uma conta? <router-link to="/login">Entre</router-link></p>
@@ -132,8 +132,6 @@ async function handleCadastro() {
 
 /*tituko*/
 .login-box h1 {
-  color: #f0f0f0; /* branco gelo */
-  margin-bottom: 2rem;
   font-weight: 500;
   font-size: 2rem;
 }
@@ -150,21 +148,11 @@ async function handleCadastro() {
 .input-group label {
   align-self: flex-start;
   color: #f0f0f0;
-  margin-bottom: 0.5rem;
   font-weight: 500;
   font-size: 1.1rem;
 }
 
 /*campos*/
-.input-group input {
-  width: 90%;
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: 2px solid #f0f0f0;
-  background-color: #2b2b2b;
-  color: #f0f0f0;
-  font-size: 1.1rem;
-}
 
 .input-group input:focus {
   outline: none;
@@ -174,17 +162,8 @@ async function handleCadastro() {
 
 /*botao*/
 button {
-  width: 90%;
+  width: 100%;
   padding: 1rem;
-  background-color: #228b22;
-  border: none;
-  border-radius: 8px;
-  font-weight: 200;
-  cursor: pointer;
-  transition: 0.3s;
-  color: #f0f0f0;
-  font-size: 1.2rem;
-  margin-top: 1rem;
 }
 
 button:hover {

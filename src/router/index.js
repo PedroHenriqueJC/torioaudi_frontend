@@ -51,6 +51,12 @@ const router = createRouter({
       component: () => import('../views/perfil.vue'),
       meta: { requiresAuth: true }
     },
+    {
+      path: '/editar-perfil',
+      name: 'editarPerfil',
+      component: () => import('../views/editarPerfil.vue'),
+      meta: { requiresAuth: true }
+    },
     { 
       path: '/salas', 
       name: 'salas', 
@@ -91,25 +97,29 @@ const router = createRouter({
   ],
 })
 
+// ✅ Guard de rotas - Proteção de autenticação
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  const user = localStorage.getItem('user')
+  const isAuthenticated = !!token && !!user
 
-// router.beforeEach((to, from, next) => {
-//   const token = localStorage.getItem('token')
-//   const isAuthenticated = !!token
+  // Rota requer autenticação
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    // Limpar dados corrompidos se houver
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    next('/login')
+    return
+  }
 
-//   // Rota requer autenticação
-//   if (to.meta.requiresAuth && !isAuthenticated) {
-//     next('/login')
-//     return
-//   }
+  // Rota é apenas para visitantes (login/cadastro)
+  if (to.meta.requiresGuest && isAuthenticated) {
+    next('/')
+    return
+  }
 
-//   // Rota é apenas para visitantes (login/cadastro)
-//   if (to.meta.requiresGuest && isAuthenticated) {
-//     next('/')
-//     return
-//   }
-
-//   // Caso contrário, permite a navegação
-//   next()
-// })
+  // Caso contrário, permite a navegação
+  next()
+})
 
 export default router

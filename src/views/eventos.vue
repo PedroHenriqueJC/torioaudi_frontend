@@ -2,8 +2,8 @@
   <div class="container">
     <h1>Eventos Cadastrados</h1>
     <div class="filtros">
-      <input v-model="busca" type="text" placeholder="Buscar por título ou descrição..." class="search-bar" />
-      <select v-model="salaSelecionada" class="sala-select">
+      <input v-model="busca" type="text" placeholder="Buscar por título ou descrição..." class="input-busca" />
+      <select v-model="salaSelecionada" class="select-busca">
         <option value="">Todas as salas</option>
         <option v-for="sala in salas" :key="sala.cod_sala" :value="sala.cod_sala">{{ sala.nome_sala }}</option>
       </select>
@@ -27,6 +27,7 @@
 <script>
 import CardEvento from '@/components/cardEvento.vue';
 import api from '@/services/api';
+import '../assets/componentes.css'
 
 export default {
   name: 'Eventos',
@@ -134,14 +135,25 @@ h1 {
   font-size: 1.1rem;
 }
 
-.sala-select {
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: 2px solid #f0f0f0;
-  background-color: #2b2b2b;
-  color: #f0f0f0;
-  font-size: 1.1rem;
+.select-busca {
+    margin: 0;
+    padding: 100px;
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 8px;
+    background-color: #2b2b2b;
+    color: #f0f0f0;
+    font-size: 1.1rem;
 }
+
+/* Hover e Focus iguais ao input */
+.select-busca:hover,
+.select-busca:focus {
+    transform: brightness(1.5);
+    outline: none;
+    transition: 100ms;
+}
+
 
 .loading {
   text-align: center;

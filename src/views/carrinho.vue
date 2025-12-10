@@ -1,10 +1,14 @@
 <template>
   <div class="carrinho">
-    <h2>Carrinho de Reservas</h2>
+    <div class="header-carrinho">
+      <h2>Carrinho</h2>
+    <p>Confirme suas reservas aqui:</p>
+    </div>
     
     <div v-if="cartItems.length === 0" class="empty-cart">
-      <p>Seu carrinho está vazio</p>
-      <router-link to="/agendamento" class="btn">Fazer uma reserva</router-link>
+      <p>Seu carrinho está vazio!</p>
+      <br>
+      <router-link to="/agendamento" class="botaoPadrao">Fazer uma reserva</router-link>
     </div>
 
     <div v-else class="cart-items">
@@ -83,6 +87,7 @@
 <script>
 import { useCartStore } from '../stores/cart'
 import { defineComponent } from 'vue'
+import '../assets/componentes.css'
 
 export default defineComponent({
   name: 'Carrinho',
@@ -275,15 +280,28 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.carrinho {
+.header-carrinho {
+  margin-top: 20px;
+  text-align: start;
+  margin-bottom: 20px;
+  width: 100%;
   padding: 20px;
-  max-width: 800px;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+}
+
+.carrinho {
+  height: 100vh;
+  padding: 20px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .empty-cart {
+  border-radius: 8px;
   text-align: center;
   padding: 40px;
+  background-color: #1a1a1a;
 }
 
 .cart-item {

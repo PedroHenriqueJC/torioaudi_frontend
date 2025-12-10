@@ -2,6 +2,7 @@
 import { ref } from "vue"
 import axios from "axios"
 import api from "@/services/api"
+import "@/assets/componentes.css"
 
 const nome = ref("")
 const descricao = ref("")
@@ -40,7 +41,7 @@ async function salvarEquipamento() {
       <form @submit.prevent="salvarEquipamento">
         <div class="form-group">
           <label for="nome">Nome do equipamento:</label>
-          <input id="nome" v-model="nome" type="text" placeholder="Ex: Projetor" />
+          <input id="nome" class="input-busca" v-model="nome" type="text" placeholder="Ex: Projetor"/>
         </div>
 
         <div class="form-group">
@@ -49,7 +50,7 @@ async function salvarEquipamento() {
         </div>
         <div class="form-group">
           <label for="quantidade">Quantidade total:</label>
-          <input id="quantidade" v-model="quantidade" type="number" placeholder="Ex: 5" />
+          <input id="quantidade" class="input-busca" v-model="quantidade" type="number" placeholder="Ex: 5" />
         </div>
 
 
@@ -63,14 +64,13 @@ async function salvarEquipamento() {
 
 <style scoped>
 .container {
-  position: fixed;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100vh;
   color: #f0f0f0;
   justify-content: center;
-  align-items: center;
+  align-items: center ;
 }
 
 .box {
@@ -107,14 +107,9 @@ async function salvarEquipamento() {
 .form-group input, textarea {
   width: 100%;
   padding: 0.8rem;
-  border-radius: 8px;
-  border: 2px solid #f0f0f0;
-  background-color: #2b2b2b;
-  color: #f0f0f0;
 }
 
 .form-group input:focus, textarea:focus {
-  outline: none;
   border-color: #cacaca;
 }
 

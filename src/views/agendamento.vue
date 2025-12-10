@@ -1,7 +1,6 @@
 <style scoped>
 .content {
   width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: row;
   gap: 2rem;

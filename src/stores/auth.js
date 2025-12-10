@@ -1,34 +1,3 @@
-// import { defineStore } from 'pinia'
-
-// export const useAuthStore = defineStore('auth', {
-//   state: () => ({
-//     token: null,
-//     usuario: null,
-//   }),
-//   getters: {
-//     isLogged: (state) => !!state.token
-//   },
-//   actions: {
-//     setAuth(token, usuario) {
-//       this.token = token
-//       this.usuario = usuario
-//       // se quiser persistir, salve explicitamente aqui:
-//       // localStorage.setItem('token', token)
-//     },
-//     logout() {
-//       this.token = null
-//       this.usuario = null
-//       localStorage.removeItem('token') // limpe persistência se existir
-//     }
-//   }
-// })
-
-
-
-
-
-
-// src/stores/auth.js
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
@@ -37,6 +6,22 @@ export const useAuthStore = defineStore('auth', {
     token: localStorage.getItem('token') || null, 
     isAuthenticated: !!localStorage.getItem('token')
   }),
+
+  getters: {
+    // Validar se o usuário está autenticado (token e user existem)
+    isLoggedIn: (state) => {
+      return !!(state.token && state.user && state.isAuthenticated)
+    },
+    // Obter role do usuário (0 = comum, 1 = admin)
+    userRole: (state) => {
+      return state.user?.role || state.user?.tipo_usuario || null
+    },
+    // Verificar se é administrador
+    isAdmin: (state) => {
+      const role = state.user?.role || state.user?.tipo_usuario
+      return role === 1 || role === '1'
+    }
+  },
 
   actions: {
     // 🔹 Método chamado no login
@@ -62,9 +47,22 @@ export const useAuthStore = defineStore('auth', {
       const user = JSON.parse(localStorage.getItem('user'))
       this.token = token
       this.user = user
-      this.isAuthenticated = !!token
+      this.isAuthenticated = !!token && !!user
+    },
+    // 🔹 Validar token com o backend (chamada opcional)
+    async validateToken() {
+      try {
+        const api = await import('../services/api').then(m => m.default)
+        const response = await api.get('/user/validate')
+        if (response.status === 200) {
+          this.isAuthenticated = true
+          return true
+        }
+      } catch (error) {
+        // Token inválido, fazer logout
+        this.logout()
+        return false
+      }
     }
   }
 })
-
-// stores/auth.js

@@ -4,8 +4,9 @@
       <h1>Login</h1>
       <form @submit.prevent="handleLogin">
         <div class="input-group">
-          <label for="email">E-mail</label>
+          <label for="email">E-mail:</label>
           <input
+            class="input-busca"
             type="text"
             id="email"
             v-model="email"
@@ -13,8 +14,9 @@
             required
           />
 
-          <label for="senha">Senha</label>
+          <label for="senha">Senha:</label>
           <input
+            class= "input-busca"
             type="password"
             id="senha"
             v-model="senha"
@@ -23,10 +25,10 @@
           />
         </div>
 
-        <button type="submit">Entrar</button>
+        <button type="submit" class="botaoVerde">Entrar</button>
         <p v-if="mensagem" class="mensagem">{{ mensagem }}</p>
       </form>
-
+      <br>
       <p>
         Não tem uma conta?
         <router-link to="/cadastro">Cadastre-se</router-link>
@@ -40,6 +42,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import api from '../services/api'
+import '../assets/componentes.css'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -82,15 +85,13 @@ const handleLogin = async () => {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #121212;
-  color: #f0f0f0;
 }
 
 .login-box {
-  background-color: #1f1f1f;
+  background-color: #1f1f1f; /* grafite escuro */
   padding: 3rem;
   border-radius: 15px;
-  width: 400px;
+  width: 450px;
   text-align: center;
 }
 
@@ -101,32 +102,19 @@ const handleLogin = async () => {
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+
 }
 
 .input-group label {
-  font-weight: 500;
-  text-align: left;
-}
-
-.input-group input {
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: 2px solid #f0f0f0;
-  background-color: #2b2b2b;
+  align-self: flex-start;
   color: #f0f0f0;
+  font-weight: 500;
+  font-size: 1.1rem;
 }
 
 button {
   margin-top: 1.5rem;
-  padding: 1rem;
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  background-color: #228b22;
-  color: #f0f0f0;
-  cursor: pointer;
-  font-size: 1.1rem;
+  width: 100%
 }
 
 button:hover {
